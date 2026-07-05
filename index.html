@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datathon Document Submissions</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2127;
+    --border: #2a2d35;
+    --accent: #f0c040;
+    --accent2: #4a9eff;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --error: #ff6b6b;
+    --success: #4ade80;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--accent); }
+  .header-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .pill.live { border-color: var(--success); color: var(--success); }
+  .pill.live::before { content: '● '; font-size: 8px; }
+
+  /* LAYOUT */
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    min-height: calc(100vh - 61px);
+  }
+
+  /* FORM PANEL */
+  .form-panel {
+    padding: 48px 48px 80px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+  }
+
+  .form-header {
+    margin-bottom: 40px;
+  }
+  .form-header h1 {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .form-header p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .field-row.triple {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .field-row.full {
+    grid-template-columns: 1fr;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+  .field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .field label .req {
+    color: var(--accent);
+    margin-left: 3px;
+  }
+  .field label .opt {
+    color: var(--border);
+    margin-left: 3px;
+    font-size: 9px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 10px 13px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent2);
+    background: var(--surface2);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 18px 13px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  input[type="file"]:hover { border-color: var(--accent2); }
+
+  /* MULTI-SELECT CHIPS */
+  .chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px;
+    min-height: 46px;
+    cursor: text;
+    transition: border-color 0.15s;
+  }
+  .chips-container:focus-within { border-color: var(--accent2); background: var(--surface2); }
+  .chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: chipIn 0.15s ease;
+  }
+  @keyframes chipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  .chip-remove {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1;
+    margin-top: -1px;
+  }
+  .chip-remove:hover { color: var(--error); }
+  .chip-input {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    flex: 1;
+    min-width: 120px;
+    padding: 2px 0;
+  }
+  .chip-hint {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  /* RADIO BUTTONS */
+  .radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .radio-btn {
+    position: relative;
+  }
+  .radio-btn input { display: none; }
+  .radio-btn label {
+    display: block;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .radio-btn input:checked + label {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(240, 192, 64, 0.06);
+  }
+  .radio-btn label:hover { border-color: var(--muted); color: var(--text); }
+
+  /* TEAM CHECKBOXES */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .team-check { position: relative; }
+  .team-check input { display: none; }
+  .team-check label {
+    display: block;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .team-check input:checked + label {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    background: rgba(74, 158, 255, 0.06);
+  }
+  .team-check label:hover { border-color: var(--muted); color: var(--text); }
+
+  /* SUBMIT */
+  .submit-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .btn-submit {
+    background: var(--accent);
+    color: #0e0f11;
+    border: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 13px 28px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    flex: 1;
+  }
+  .btn-submit:hover { background: #f5d060; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-clear {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 13px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .btn-clear:hover { border-color: var(--error); color: var(--error); }
+
+  /* VALIDATION */
+  .field-error {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--error);
+    margin-top: 5px;
+    display: none;
+  }
+  .field.invalid input,
+  .field.invalid select,
+  .field.invalid textarea,
+  .field.invalid .chips-container {
+    border-color: var(--error);
+  }
+  .field.invalid .field-error { display: block; }
+
+  /* OUTPUT PANEL */
+  .output-panel {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 61px);
+    position: sticky;
+    top: 61px;
+  }
+
+  .output-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .output-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .output-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-icon {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .btn-icon:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-icon.copied { border-color: var(--success); color: var(--success); }
+
+  .output-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+  pre#json-output {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* JSON syntax highlighting */
+  .json-key { color: var(--accent2); }
+  .json-string { color: #a8d8a8; }
+  .json-number { color: var(--accent); }
+  .json-bool { color: #c792ea; }
+  .json-null { color: var(--muted); }
+
+  /* Records panel */
+  .records-panel {
+    border-top: 1px solid var(--border);
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .records-header {
+    padding: 12px 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+  }
+  .btn-download-all {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-download-all:hover { border-color: var(--accent); color: var(--accent); }
+  .record-item {
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .record-item:hover { background: var(--surface); }
+  .record-item .record-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 22px;
+  }
+  .record-item .record-title {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .record-item .record-country {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .empty-state {
+    padding: 28px 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: all 0.25s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+    .output-panel { position: relative; height: auto; top: 0; border-top: 1px solid var(--border); }
+    .form-panel { padding: 32px 20px; }
+    .field-row { grid-template-columns: 1fr; }
+    .field-row.triple { grid-template-columns: 1fr 1fr; }
+    header { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span>DevDataLab</span> / Datathon</div>
+  <div class="header-right">
+    <div class="pill live">Accepting submissions</div>
+    <div class="pill" id="count-pill">0 submitted</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- FORM -->
+  <div class="form-panel">
+    <div class="form-header">
+      <h1>Submit a Document</h1>
+      <p>Add a document to the Datathon corpus. Fields marked <span style="color:var(--accent)">*</span> are required.</p>
+    </div>
+
+    <form id="submission-form" novalidate>
+
+      <!-- TEAM -->
+      <div class="section">
+        <div class="section-label">Team</div>
+        <div class="field">
+          <label>Which team are you on?</label>
+          <div class="team-grid" id="team-grid">
+            <div class="team-check"><input type="checkbox" name="team" id="t1" value="Team Alpha"><label for="t1">Team Alpha</label></div>
+            <div class="team-check"><input type="checkbox" name="team" id="t2" value="Team Beta"><label for="t2">Team Beta</label></div>
+            <div class="team-check"><input type="checkbox" name="team" id="t3" value="Team Gamma"><label for="t3">Team Gamma</label></div>
+            <div class="team-check"><input type="checkbox" name="team" id="t4" value="Team Delta"><label for="t4">Team Delta</label></div>
+            <div class="team-check"><input type="checkbox" name="team" id="t5" value="Team Epsilon"><label for="t5">Team Epsilon</label></div>
+            <div class="team-check"><input type="checkbox" name="team" id="t6" value="Team Zeta"><label for="t6">Team Zeta</label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENT INFO -->
+      <div class="section">
+        <div class="section-label">Document Information</div>
+
+        <div class="field" id="field-title">
+          <label>Document Title <span class="req">*</span></label>
+          <input type="text" id="doc-title" placeholder="Full title of the document" />
+          <div class="field-error">Title is required</div>
+        </div>
+
+        <div class="field" id="field-tags">
+          <label>Tags / Theme <span class="opt">optional</span></label>
+          <div class="chips-container" id="tags-container">
+            <input class="chip-input" id="tags-input" placeholder="Type a tag and press Enter…" />
+          </div>
+          <div class="chip-hint">Suggested: FSI/FAR &amp; density controls · building form controls · TOD · land ceilings · land records · master planning &amp; zoning</div>
+        </div>
+
+        <div class="field" id="field-notes">
+          <label>What is this about? <span class="req">*</span></label>
+          <textarea id="doc-notes" placeholder="1–3 sentences describing the document's contents…"></textarea>
+          <div class="field-error">Description is required</div>
+        </div>
+      </div>
+
+      <!-- GEOGRAPHY -->
+      <div class="section">
+        <div class="section-label">Geography</div>
+        <div class="field-row triple">
+          <div class="field" id="field-country">
+            <label>Country <span class="req">*</span></label>
+            <input type="text" id="doc-country" placeholder="e.g. India" />
+            <div class="field-error">Country is required</div>
+          </div>
+          <div class="field" id="field-state">
+            <label>State / Province <span class="req">*</span></label>
+            <input type="text" id="doc-state" placeholder="e.g. Maharashtra" />
+            <div class="field-error">State is required</div>
+          </div>
+          <div class="field">
+            <label>City <span class="opt">optional</span></label>
+            <input type="text" id="doc-city" placeholder="e.g. Mumbai" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ENACTING ENTITY -->
+      <div class="section">
+        <div class="section-label">Enacting Entity</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Organisation / Publisher <span class="opt">optional</span></label>
+            <input type="text" id="doc-org" placeholder="e.g. Ministry of Housing" />
+          </div>
+          <div class="field">
+            <label>Enacting Entity <span class="opt">optional</span></label>
+            <input type="text" id="doc-entity" placeholder="e.g. Mumbai Municipal Corporation" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Enacting Entity Type <span class="opt">optional</span></label>
+            <div class="radio-group" id="entity-type-group">
+              <div class="radio-btn"><input type="radio" name="entity_type" id="et-nat" value="National"><label for="et-nat">National</label></div>
+              <div class="radio-btn"><input type="radio" name="entity_type" id="et-st" value="State"><label for="et-st">State</label></div>
+              <div class="radio-btn"><input type="radio" name="entity_type" id="et-loc" value="Local"><label for="et-loc">Local</label></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Level of Influence <span class="opt">optional</span></label>
+            <div class="radio-group" id="influence-group">
+              <div class="radio-btn"><input type="radio" name="influence" id="inf-nat" value="National"><label for="inf-nat">National</label></div>
+              <div class="radio-btn"><input type="radio" name="influence" id="inf-st" value="State"><label for="inf-st">State</label></div>
+              <div class="radio-btn"><input type="radio" name="influence" id="inf-loc" value="Local"><label for="inf-loc">Local</label></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEMPORAL -->
+      <div class="section">
+        <div class="section-label">Timeline</div>
+        <div class="field-row">
+          <div class="field" id="field-year">
+            <label>Year of Enactment <span class="req">*</span></label>
+            <input type="number" id="doc-year" placeholder="e.g. 2004" min="1800" max="2099" />
+            <div class="field-error">Year is required</div>
+          </div>
+          <div class="field">
+            <label>Year of Stopping <span class="opt">optional</span></label>
+            <input type="number" id="doc-year-stop" placeholder="e.g. 2020" min="1800" max="2099" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Language <span class="opt">optional</span></label>
+          <input type="text" id="doc-language" placeholder="e.g. English, Hindi, Marathi" />
+        </div>
+      </div>
+
+      <!-- STATUS -->
+      <div class="section">
+        <div class="section-label">Accessibility &amp; Format</div>
+
+        <div class="field-row">
+          <div class="field" id="field-accessible">
+            <label>Accessible <span class="req">*</span></label>
+            <div class="radio-group">
+              <div class="radio-btn"><input type="radio" name="accessible" id="acc-yes" value="Yes"><label for="acc-yes">Yes</label></div>
+              <div class="radio-btn"><input type="radio" name="accessible" id="acc-unv" value="Unverified"><label for="acc-unv">Unverified</label></div>
+              <div class="radio-btn"><input type="radio" name="accessible" id="acc-no" value="No"><label for="acc-no">No</label></div>
+            </div>
+            <div class="field-error">Please select an accessibility status</div>
+          </div>
+          <div class="field">
+            <label>Machine Readable <span class="req">*</span></label>
+            <div class="radio-group">
+              <div class="radio-btn"><input type="radio" name="machine_readable" id="mr-yes" value="Yes"><label for="mr-yes">Yes</label></div>
+              <div class="radio-btn"><input type="radio" name="machine_readable" id="mr-part" value="Partial"><label for="mr-part">Partial</label></div>
+              <div class="radio-btn"><input type="radio" name="machine_readable" id="mr-no" value="No"><label for="mr-no">No</label></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILE / SOURCE -->
+      <div class="section">
+        <div class="section-label">Source</div>
+        <div class="field">
+          <label>Source Link <span class="opt">optional</span></label>
+          <input type="url" id="doc-link" placeholder="https://…" />
+        </div>
+        <div class="field">
+          <label>Upload File <span class="opt">optional</span></label>
+          <input type="file" id="doc-file" accept=".pdf,.doc,.docx,.txt" />
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn-submit">Generate JSON →</button>
+        <button type="button" class="btn-clear" onclick="clearForm()">Clear</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- OUTPUT PANEL -->
+  <div class="output-panel">
+    <div class="output-header">
+      <span class="output-title">JSON Output</span>
+      <div class="output-actions">
+        <button class="btn-icon" onclick="copyJSON()" id="btn-copy">Copy</button>
+        <button class="btn-icon" onclick="downloadJSON()">↓ Download</button>
+      </div>
+    </div>
+    <div class="output-body">
+      <pre id="json-output"><span style="color:var(--muted); font-size:12px">// Fill in the form and click<br>// "Generate JSON" to preview<br>// the structured output here.</span></pre>
+    </div>
+
+    <div class="records-panel">
+      <div class="records-header">
+        <span>Submissions this session (<span id="rec-count">0</span>)</span>
+        <button class="btn-download-all" onclick="downloadAll()">↓ Download All</button>
+      </div>
+      <div id="records-list">
+        <div class="empty-state">No submissions yet.<br>Submit a form to create a record.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---- Tag chips ----
+  const tagsInput = document.getElementById('tags-input');
+  const tagsContainer = document.getElementById('tags-container');
+  let tags = [];
+
+  tagsInput.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ',') && tagsInput.value.trim()) {
+      e.preventDefault();
+      addTag(tagsInput.value.trim().replace(/,$/, ''));
+      tagsInput.value = '';
+    }
+    if (e.key === 'Backspace' && !tagsInput.value && tags.length) {
+      removeTag(tags.length - 1);
+    }
+  });
+
+  function addTag(val) {
+    if (!val || tags.includes(val)) return;
+    tags.push(val);
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.idx = tags.length - 1;
+    chip.innerHTML = `<span>${val}</span><span class="chip-remove" onclick="removeTag(${tags.length - 1})">×</span>`;
+    tagsContainer.insertBefore(chip, tagsInput);
+  }
+
+  function removeTag(idx) {
+    tags.splice(idx, 1);
+    renderChips();
+  }
+
+  function renderChips() {
+    tagsContainer.querySelectorAll('.chip').forEach(c => c.remove());
+    const savedTags = [...tags];
+    tags = [];
+    savedTags.forEach(t => addTag(t));
+  }
+
+  tagsContainer.addEventListener('click', () => tagsInput.focus());
+
+  // ---- Form logic ----
+  let records = [];
+  let currentJSON = null;
+
+  function getVal(id) {
+    return document.getElementById(id)?.value.trim() || null;
+  }
+
+  function getRadio(name) {
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    return checked ? checked.value : null;
+  }
+
+  function getTeams() {
+    return [...document.querySelectorAll('input[name="team"]:checked')].map(c => c.value);
+  }
+
+  function validate() {
+    let valid = true;
+
+    const required = [
+      { id: 'field-title', val: getVal('doc-title') },
+      { id: 'field-country', val: getVal('doc-country') },
+      { id: 'field-state', val: getVal('doc-state') },
+      { id: 'field-year', val: getVal('doc-year') },
+      { id: 'field-notes', val: getVal('doc-notes') },
+    ];
+
+    required.forEach(({ id, val }) => {
+      const el = document.getElementById(id);
+      if (!val) { el.classList.add('invalid'); valid = false; }
+      else el.classList.remove('invalid');
+    });
+
+    // accessible required
+    const accField = document.getElementById('field-accessible');
+    if (!getRadio('accessible')) { accField.classList.add('invalid'); valid = false; }
+    else accField.classList.remove('invalid');
+
+    return valid;
+  }
+
+  document.getElementById('submission-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) { showToast('Please fill in all required fields', true); return; }
+
+    const submitBtn = document.querySelector('.btn-submit');
+    submitBtn.textContent = 'Submitting…';
+    submitBtn.disabled = true;
+
+    const data = buildJSON();
+    currentJSON = data;
+    renderOutput(data);
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      if (!res.ok) throw new Error(result.error || 'Unknown error');
+
+      // Tag with the DB-assigned id
+      data.db_id = result.id;
+      records.push(data);
+      renderOutput(data);
+      renderRecords();
+      showToast(`✓ Saved to database (id: ${result.id})`);
+      document.getElementById('count-pill').textContent = `${records.length} submitted`;
+      clearForm();
+
+    } catch (err) {
+      showToast(`✗ ${err.message}`, true);
+    } finally {
+      submitBtn.textContent = 'Generate JSON →';
+      submitBtn.disabled = false;
+    }
+  });
+
+  function buildJSON() {
+    const fileInput = document.getElementById('doc-file');
+    const fileName = fileInput.files.length ? fileInput.files[0].name : null;
+
+    return {
+      submission_id: `doc_${Date.now()}`,
+      submitted_at: new Date().toISOString(),
+      team: getTeams(),
+      document_title: getVal('doc-title'),
+      tags: tags.length ? [...tags] : null,
+      geography: {
+        country: getVal('doc-country'),
+        state: getVal('doc-state'),
+        city: getVal('doc-city'),
+      },
+      enacting_entity: {
+        name: getVal('doc-entity'),
+        organisation_publisher: getVal('doc-org'),
+        type: getRadio('entity_type'),
+        level_of_influence: getRadio('influence'),
+      },
+      timeline: {
+        year_of_enactment: getVal('doc-year') ? parseInt(getVal('doc-year')) : null,
+        year_of_stopping: getVal('doc-year-stop') ? parseInt(getVal('doc-year-stop')) : null,
+        language: getVal('doc-language'),
+      },
+      notes: getVal('doc-notes'),
+      accessibility: {
+        accessible: getRadio('accessible'),
+        machine_readable: getRadio('machine_readable'),
+      },
+      source: {
+        link: getVal('doc-link'),
+        uploaded_file: fileName,
+      }
+    };
+  }
+
+  function syntaxHighlight(json) {
+    const str = JSON.stringify(json, null, 2);
+    return str.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+\.?\d*)/g, match => {
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) return `<span class="json-key">${match}</span>`;
+        return `<span class="json-string">${match}</span>`;
+      }
+      if (/true|false/.test(match)) return `<span class="json-bool">${match}</span>`;
+      if (/null/.test(match)) return `<span class="json-null">${match}</span>`;
+      return `<span class="json-number">${match}</span>`;
+    });
+  }
+
+  function renderOutput(data) {
+    document.getElementById('json-output').innerHTML = syntaxHighlight(data);
+  }
+
+  function renderRecords() {
+    const list = document.getElementById('records-list');
+    document.getElementById('rec-count').textContent = records.length;
+    if (!records.length) {
+      list.innerHTML = '<div class="empty-state">No submissions yet.<br>Submit a form to create a record.</div>';
+      return;
+    }
+    list.innerHTML = records.map((r, i) => `
+      <div class="record-item" onclick="viewRecord(${i})">
+        <span class="record-num">#${i+1}</span>
+        <span class="record-title">${r.document_title || 'Untitled'}</span>
+        <span class="record-country">${r.geography?.country || '—'}</span>
+      </div>
+    `).join('');
+  }
+
+  function viewRecord(i) {
+    currentJSON = records[i];
+    renderOutput(records[i]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function clearForm() {
+    document.getElementById('submission-form').reset();
+    tags = [];
+    tagsContainer.querySelectorAll('.chip').forEach(c => c.remove());
+    document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+    document.getElementById('json-output').innerHTML = '<span style="color:var(--muted); font-size:12px">// Cleared. Fill in the form and submit.</span>';
+    currentJSON = null;
+  }
+
+  function copyJSON() {
+    if (!currentJSON) { showToast('Nothing to copy yet', true); return; }
+    navigator.clipboard.writeText(JSON.stringify(currentJSON, null, 2)).then(() => {
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✓ Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function downloadJSON() {
+    if (!currentJSON) { showToast('Nothing to download yet', true); return; }
+    const blob = new Blob([JSON.stringify(currentJSON, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `submission_${currentJSON.submission_id || Date.now()}.json`;
+    a.click();
+    showToast('↓ Downloading JSON…');
+  }
+
+  function downloadAll() {
+    if (!records.length) { showToast('No records yet', true); return; }
+    const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `datathon_submissions_${Date.now()}.json`;
+    a.click();
+    showToast(`↓ Downloading ${records.length} record(s)…`);
+  }
+
+  function showToast(msg, isErr = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.borderColor = isErr ? 'var(--error)' : 'var(--success)';
+    t.style.color = isErr ? 'var(--error)' : 'var(--success)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>
